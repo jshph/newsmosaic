@@ -1,0 +1,21 @@
+body {
+    text-align: center;
+}
+
+.container {
+}
+
+.keyword_group {
+    color:black;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.keyword_group:hover {
+    color:rgb(177, 177, 177);
+    transition:.3s;
+}
+
+.keyword_group:active {
+    background-color:rgb(255, 254, 197);
+}
