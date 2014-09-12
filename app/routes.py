@@ -2,12 +2,24 @@ from flask import Flask, render_template
 from urllib2 import Request, urlopen, URLError
 import threading
 import datasource
+import nltk
 
-app = Flask(__name__)      
- 
+app = Flask(__name__)
+data = datasource.DataSource()
+
+def hello():
+	print "hello"
+
+def yo():
+	print "yo"
+
 @app.route('/')
 def home():
 	return render_template('main.html')
+
+@app.route('/update')
+def respond():
+	return "hello"
 
 def do_every (interval, worker_func, iterations = 0):
   if iterations != 1:
@@ -18,6 +30,8 @@ def do_every (interval, worker_func, iterations = 0):
   worker_func ();
  
 if __name__ == '__main__':
-	data = datasource.DataSource()
-	do_every(30, data.update_article_urls)
-	app.run(host="0.0.0.0",debug=True)
+	app.run(debug=True)
+	do_every(30, data.update_data())
+	
+	
+	
