@@ -27,6 +27,11 @@ def respond():
   		json.dump(data.data, outfile)
   	return json.dump(data.data, outfile)
 
+@app.route('/request')
+def clientdemand():
+    pprint.pprint(data)
+    return json.dumps(data, separators=(',',':'))
+
 
 def do_every (interval, worker_func, iterations = 0):
   if iterations != 1:
@@ -36,8 +41,14 @@ def do_every (interval, worker_func, iterations = 0):
     ).start ();
   worker_func ();
  
+
+data = 0
+
 if __name__ == '__main__':
-	app.run(debug=True)
+    json_data = open('data.json').read()
+    data = json.loads(json_data)
+    # pprint.pprint(data)
+    app.run(debug=True)
 	
 	
 	

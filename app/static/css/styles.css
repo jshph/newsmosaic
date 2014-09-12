@@ -1,20 +1,56 @@
 body {
     text-align: center;
+    font-size: 16;
 }
 
 .container {
+}
+
+#keywordCont {
+    text-align: left;
 }
 
 .keyword_group {
     color:black;
     transition:.3s;
     cursor:pointer;
+    padding: 0 5px;
+}
+
+.keyw_setWidth {
+    width:90px;
+    text-align: center;
+    display: inline-block;
+}
+
+.keywg_active {
+    background-color: rgb(202, 200, 245);
 }
 
 .keyword_group:hover {
     color:rgb(177, 177, 177);
     transition:.3s;
 }
+
+.bodyPane {
+    width:80%;
+    display:block;
+    margin: 0 auto;
+    background-color: rgb(237, 237, 237);
+    margin-top:20px;
+    margin-bottom:20px;
+    padding: 20px;
+    border-radius: 5px;
+    overflow: auto;
+    box-shadow: 0 5 0;
+    transition: height 0.5s;
+}
+
+.hidden {
+    height:0px;
+    transition: height .5s;
+}
+
 
 .keyword_group:active {
     background-color:rgb(255, 254, 197);
