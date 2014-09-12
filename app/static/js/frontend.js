@@ -38,7 +38,7 @@ function append(data) {
             //$(keywordGroup).text(data_quad.wordchoice[0]);
 
             var articleBody = document.createElement('div');
-            $(articleBody).addClass('bodyPane panel')
+            $(articleBody).addClass('bodyPane panel panel-default')
                         .html('<div><h4 style="text-align:center">' + data_quad.title + '</h4>' +
                             '<p>' + data_quad.corpus + '</p></div>');
 
