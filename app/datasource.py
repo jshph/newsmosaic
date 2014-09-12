@@ -16,7 +16,7 @@ class DataSource(object):
 
 	def update_data(self):
 		del self.data[:]
-		request = Request('http://cloud.feedly.com/v3/search/feeds?q=iphone&n=10')
+		request = Request('http://cloud.feedly.com/v3/search/feeds?q=iphone&n=5')
 		try:
 			response = urlopen(request)
 			kittens = response.read()
@@ -32,19 +32,23 @@ class DataSource(object):
 			tree = ET.ElementTree(file=urlopen(url)) 
 			root = tree.getroot()
 
+			urlcount = 0
 			for item in root.iter('item'):
 				curr_url = item.find('link').text
 				data_quartet = {}
 				data_quartet['url']=curr_url
-				if (curr_url[-4:]==".php"):
+				if (curr_url[-4:]==".php" or urlcount>=7):
 					continue
 				tempScraped = self.scrape_url(curr_url)
 				data_quartet['corpus'] = tempScraped.cleaned_text
+				if (len(data_quartet['corpus'])==0):
+					continue
 				data_quartet['title'] = tempScraped.title
 				data_quartet['wordchoice'] = self.choose_words(data_quartet['corpus'])
 				self.data.append(data_quartet);
+				urlcount+=1
 			i+=1
-		print self.urls
+		return self.data
 
 	def scrape_url(self,url):
 		return self.g.extract(url=url)
