@@ -21,5 +21,3 @@ if __name__ == '__main__':
 	data = datasource.DataSource()
 	do_every(30, data.update_article_urls)
 	app.run(host="0.0.0.0",debug=True)
-	
-	
