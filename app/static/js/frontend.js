@@ -14,7 +14,7 @@ var HttpClient = function() {
     }
 }
 
-var data
+var data;
 
 var request = new HttpClient();
 request.get('/request', function(data) {
@@ -27,7 +27,6 @@ function append(data) {
     for (var i = 0; i < 10; i++) {
         data.forEach(function(data_quad) {
             var keywordGroup = document.createElement('span');
-            console.log(data_quad);
             $(keywordGroup).addClass('keyword_group');
 
 
@@ -40,15 +39,45 @@ function append(data) {
 
             var articleBody = document.createElement('div');
             $(articleBody).addClass('bodyPane panel')
-                        .html('<h4 style="text-align:center">' + data_quad.title + '</h4>' +
-                            '<p>' + data_quad.corpus + '</p>');
+                        .html('<div><h4 style="text-align:center">' + data_quad.title + '</h4>' +
+                            '<p>' + data_quad.corpus + '</p></div>');
 
             $(keywordGroupCont).click(function() {
                 $(prev_active).removeClass('keywg_active');
                 $('.bodyPane').remove();
+
                 $(this).addClass('keywg_active');
                 $(articleBody).insertAfter($(this));
-                setTimeout(function(){$(articleBody).removeClass('hidden');}, 90)
+
+                slide($(articleBody).children('div'));
+                function slide(content) {
+                  var wrapper = content.parent();
+                  var contentHeight = content.outerHeight(true);
+                  var wrapperHeight = wrapper.height();
+                 
+                  wrapper.toggleClass('open');
+                  if (wrapper.hasClass('open')) {
+                    setTimeout(function() {
+                      wrapper.addClass('transition').css('height', contentHeight);
+                    }, 10);
+                  }
+                  else {
+                    setTimeout(function() {
+                      wrapper.css('height', wrapperHeight);
+                      setTimeout(function() {
+                        wrapper.addClass('transition').css('height', 0);
+                      }, 10);
+                    }, 10);
+                  }
+                 
+                  wrapper.one('transitionEnd webkitTransitionEnd transitionend oTransitionEnd msTransitionEnd', function() {
+                    if(wrapper.hasClass('open')) {
+                      wrapper.removeClass('transition').css('height', 'auto');
+                    }
+                  });
+                }
+
+                
                 prev_active = this;
             });
 
