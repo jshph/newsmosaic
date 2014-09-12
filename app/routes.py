@@ -22,14 +22,14 @@ def home():
 def respond():
 	data = datasource.DataSource()
 	data.update_data()
-	pprint.pprint(data.data)
+	# pprint.pprint(data.data)
 	with open('data.json', 'w') as outfile:
   		json.dump(data.data, outfile)
-  	return json.dump(data.data, outfile)
+  	return 'blah'
 
 @app.route('/request')
 def clientdemand():
-    pprint.pprint(data)
+    # pprint.pprint(data)
     return json.dumps(data, separators=(',',':'))
 
 
