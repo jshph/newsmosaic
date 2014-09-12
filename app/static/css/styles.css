@@ -41,16 +41,13 @@ body {
     margin-bottom:20px;
     padding: 20px;
     border-radius: 5px;
-    overflow: auto;
-    box-shadow: 0 5 0;
+    overflow: hidden;
+    height:0;
+}
+
+.bodyPane.transition {
     transition: height 0.5s;
 }
-
-.hidden {
-    height:0px;
-    transition: height .5s;
-}
-
 
 .keyword_group:active {
     background-color:rgb(255, 254, 197);
