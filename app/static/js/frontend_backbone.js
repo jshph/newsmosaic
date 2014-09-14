@@ -46,7 +46,7 @@ React.Backbone = {
       case 'model':
         events = 'change';
       }
-      this.listenTo(props[propName], events, function() { this.forceUpdate(); })
+      this.listenTo(props['model'], events, function() { this.forceUpdate(); })
     }, this)
   },
  
@@ -78,6 +78,10 @@ var ContentContainer = Backbone.Model.extend({
                     $.map(data.attributes, function(item){return item;}), // convert JSON to Array
                     {parse: true}
                 );
+
+                React.renderComponent(
+                    <KWGCont model={kwgCollection}/>
+                , document.getElementById('keywordCont'));
             },
             failed: function() {
                 console.log('failed to fetch original data!');
@@ -91,17 +95,19 @@ var ContentContainer = Backbone.Model.extend({
 var KWGroup = Backbone.Model.extend({
     tagName: 'div',
     initialize: function() {
-        console.log('hi');
-        React.renderComponent(
-            <KWGView model={this}/>
-        , document.getElementById('keywordCont'));
+        this.rotateWords();
     },
     parse: function(data_quad) {
-        wordchoice = data_quad.wordchoice;
-        displayedWord = wordchoice[0]; // for test
-        corpus = data_quad.corpus;
+        data_quad.displayedWord = data_quad.wordchoice[0];
         return data_quad;
     },
+    rotateWords: function() {
+        var index = 0;
+        window.setInterval(function() {
+            this.set({displayedWord: this.get("wordchoice")[index]});
+            index === 10 ? index = 0 : index++;
+        }.bind(this), 200);
+    }
 });
 
 var KWGCollection = Backbone.Collection.extend({
@@ -115,20 +121,33 @@ var ArticlePane = Backbone.Model.extend({
 });
 
 var KWGView = React.createClass({
-    /*mixins: [BackboneMixin],
-    getBackboneCollections: function () {
-        return [this.props.kwgCollection]
-    },*/
-    /*componentDidMount: function() {
-        this.props.model.on('change', function() {
-            this.forceUpdate(callback);
-        }).bind(this);
-    },*/
+    mixins: [React.Backbone],
+    updateOnProps: { 'item': 'model' },
     render: function() {
         return (
         <div className="kwgview">
-            {this.props.model.get('corpus')}
+            {this.props.model.get('displayedWord')}
         </div>
+        );
+    }
+});
+
+var KWGCont = React.createClass({
+    mixins: [React.Backbone],
+    updateOnProps: { 'items': 'collection' },
+    render: function() {
+        var keynum = 0;
+        var kwgCollection = this.props.model;
+        var kwgc_view = kwgCollection.map(function(kwg) {
+            keynum++;
+            return (
+                <KWGView key={keynum} model={kwg}/>
+            );
+        });
+        return (
+            <div>
+            {kwgc_view}
+            </div>
         );
     }
 });

@@ -36,6 +36,36 @@ var BackboneMixin = {
     }
 };
 
+React.Backbone = {
+  listenToProps: function(props) {
+    _.each(this.updateOnProps, function(events, propName) {
+      switch(events) {
+      case 'collection': 
+        events = 'add remove reset sort';
+        break;
+      case 'model':
+        events = 'change';
+      }
+      this.listenTo(props[propName], events, function() { this.forceUpdate(); })
+    }, this)
+  },
+ 
+  componentDidMount: function() {
+    this.listenToProps(this.props);
+  },
+ 
+  componentWillReceiveProps: function(nextProps) {
+    this.stopListening();
+    this.listenToProps(nextProps);
+  },
+ 
+  componentWillUnmount: function() {
+    this.stopListening();
+  }
+}
+ 
+_.extend(React.Backbone, Backbone.Events);
+
 // END FRAMEWORK //
 
 var ContentContainer = Backbone.Model.extend({
@@ -44,17 +74,14 @@ var ContentContainer = Backbone.Model.extend({
     initialize: function() {
         this.fetch({
             success: function(data) {
-                console.log('HttpClient');
                 kwgCollection = new KWGCollection(
                     $.map(data.attributes, function(item){return item;}), // convert JSON to Array
                     {parse: true}
                 );
-                //NEED ASYNC; TO FIX
-                React.renderComponent(
-                    <p>hello</p>
-                    <KWGView model={kwgCollection}/>
-                , $('#keywordCont'));
 
+                React.renderComponent(
+                    <KWGCont model={kwgCollection}/>
+                , document.getElementById('keywordCont'));
             },
             failed: function() {
                 console.log('failed to fetch original data!');
@@ -64,16 +91,17 @@ var ContentContainer = Backbone.Model.extend({
     }
 });
 
+
 var KWGroup = Backbone.Model.extend({
     tagName: 'div',
     initialize: function() {
     },
     parse: function(data_quad) {
         wordchoice = data_quad.wordchoice;
-        console.log(wordchoice)
+        displayedWord = wordchoice[0]; // for test
         corpus = data_quad.corpus;
         return data_quad;
-    }
+    },
 });
 
 var KWGCollection = Backbone.Collection.extend({
@@ -87,23 +115,37 @@ var ArticlePane = Backbone.Model.extend({
 });
 
 var KWGView = React.createClass({
-    mixins: [BackboneMixin],
+    /*mixins: [BackboneMixin],
     getBackboneCollections: function () {
-        return [this.props.]
-    }
-    componentDidMount: function() {
+        return [this.props.kwgCollection]
+    },*/
+    /*componentDidMount: function() {
         this.props.model.on('change', function() {
             this.forceUpdate(callback);
         }).bind(this);
-    },
+    },*/
     render: function() {
         return (
-        <div className="kwgview"><span>
-            {this.props.model.get('displayedWord')}
-        </span></div>
+        <div className="kwgview">
+            {this.props.model.get('corpus')}
+        </div>
         );
     }
-})
+});
+
+var KWGCont = React.createClass({
+    render: function() {
+        var kwgCollection = this.props.model;
+        var kwgc_view = kwgCollection.map(function(kwg) {
+            return (
+                <KWGView model={kwg}/>
+            );
+        });
+        return (
+            {kwgc_view}
+            );
+    }
+});
  
 /*
 var KWGColView = new Backbone.CollectionView({
@@ -114,5 +156,4 @@ var KWGColView = new Backbone.CollectionView({
 
 })*/
 
-console.log('hi');
 var contentContainer = new ContentContainer();
