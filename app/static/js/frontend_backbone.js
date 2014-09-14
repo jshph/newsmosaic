@@ -88,12 +88,12 @@ var KWGroup = Backbone.Model.extend({
         window.setInterval(function() {
             this.set({displayedWord: this.get("wordchoice")[index]});
             index === 10 ? index = 0 : index++;
-        }.bind(this), 200);
+        }.bind(this), 400);
     },
     genKeywordString: function(wordchoice) {
         return _.reduce(wordchoice, function(keywordString, keyword) {
             console.log(keywordString);
-            return keywordString += keyword + " ";
+            return keywordString += " " + keyword;
         });
     }
 });
@@ -114,12 +114,12 @@ var KWGView = React.createClass({
     render: function() {
         return (
         <div onMouseEnter={this.initRegisterHover} onMouseLeave={this.cancelHover} className={this.props.model.get('kwgClasses') || 'kwgContainer'} >
-            <div className="kwgRotating">
+            <span className="kwgRotating">
                 {this.props.model.get('displayedWord')}
-            </div>
-            <div className="kwgHover">
+            </span>
+            <span className="kwgHover">
                 {this.props.model.get('keywordCat') || 'null'}
-            </div>
+            </span>
         </div>
 
         );
@@ -150,9 +150,9 @@ var KWGCont = React.createClass({
             );
         });
         return (
-            <div>
+            <p>
             {kwgc_view}
-            </div>
+            </p>
         );
     }
 });

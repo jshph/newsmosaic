@@ -8,6 +8,7 @@ body {
 
 #keywordCont {
     text-align: left;
+    float:left;
 }
 
 .kwgContainer {
@@ -27,7 +28,7 @@ body {
 }
 
 .kwgRotating {
-    display:inline-block;
+    display:inline;
 }
 
 .kwgContainer.longhover .kwgRotating {
@@ -39,12 +40,13 @@ body {
 }
 
 .kwgContainer.longhover .kwgHover {
-    display:inline-block;
+    display:inline;
 }
 
 .kwgContainer.longhover {
     width:auto;
     text-align: left;
+    display:inline;
     color:rgb(149, 110, 143);
 }
 
