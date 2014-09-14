@@ -10,26 +10,46 @@ body {
     text-align: left;
 }
 
-.keyword_group {
+.kwgContainer {
     color:black;
     transition:.3s;
     cursor:pointer;
     padding: 0 5px;
-}
 
-.keyw_setWidth {
+    /*dupl from keyw_setWidth*/
     width:90px;
     text-align: center;
     display: inline-block;
 }
 
-.keywg_active {
-    background-color: rgb(202, 200, 245);
+.kwgContainer:hover {
+    background-color: rgb(253, 252, 40);
 }
 
-.keyword_group:hover {
-    color:rgb(177, 177, 177);
-    transition:.3s;
+.kwgRotating {
+    display:inline-block;
+}
+
+.kwgContainer.longhover .kwgRotating {
+    display:none;
+}
+
+.kwgHover {
+    display:none;
+}
+
+.kwgContainer.longhover .kwgHover {
+    display:inline-block;
+}
+
+.kwgContainer.longhover {
+    width:auto;
+    text-align: left;
+    color:rgb(149, 110, 143);
+}
+
+.keywg_active {
+    background-color: rgb(202, 200, 245);
 }
 
 .bodyPane {

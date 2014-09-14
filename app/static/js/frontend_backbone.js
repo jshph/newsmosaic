@@ -15,30 +15,10 @@
     }
 }*/
 
-var BackboneMixin = {
-    componentDidMount: function () {
-        // Whenever there may be a change in the Backbone data, trigger a
-        // reconcile.
-        this.getBackboneCollections().forEach(function (collection) {
-            // explicitly bind `null` to `forceUpdate`, as it demands a callback and
-            // React validates that it's a function. `collection` events passes
-            // additional arguments that are not functions
-            collection.on('add remove change', this.forceUpdate.bind(this, null));
-        }, this);
-    },
-
-    componentWillUnmount: function () {
-        // Ensure that we clean up any dangling references when the component is
-        // destroyed.
-        this.getBackboneCollections().forEach(function (collection) {
-            collection.off(null, null, this);
-        }, this);
-    }
-};
-
 React.Backbone = {
   listenToProps: function(props) {
     _.each(this.updateOnProps, function(events, propName) {
+      propName = events;
       switch(events) {
       case 'collection': 
         events = 'add remove reset sort';
@@ -46,7 +26,7 @@ React.Backbone = {
       case 'model':
         events = 'change';
       }
-      this.listenTo(props['model'], events, function() { this.forceUpdate(); })
+      this.listenTo(props[propName], events, function() { this.forceUpdate(); })
     }, this)
   },
  
@@ -96,9 +76,11 @@ var KWGroup = Backbone.Model.extend({
     tagName: 'div',
     initialize: function() {
         this.rotateWords();
+        this.kwgClasses = 'kwgContainer';
     },
     parse: function(data_quad) {
         data_quad.displayedWord = data_quad.wordchoice[0];
+        data_quad.keywordCat = this.genKeywordString(data_quad.wordchoice);
         return data_quad;
     },
     rotateWords: function() {
@@ -107,6 +89,12 @@ var KWGroup = Backbone.Model.extend({
             this.set({displayedWord: this.get("wordchoice")[index]});
             index === 10 ? index = 0 : index++;
         }.bind(this), 200);
+    },
+    genKeywordString: function(wordchoice) {
+        return _.reduce(wordchoice, function(keywordString, keyword) {
+            console.log(keywordString);
+            return keywordString += keyword + " ";
+        });
     }
 });
 
@@ -125,10 +113,27 @@ var KWGView = React.createClass({
     updateOnProps: { 'item': 'model' },
     render: function() {
         return (
-        <div className="kwgview">
-            {this.props.model.get('displayedWord')}
+        <div onMouseEnter={this.initRegisterHover} onMouseLeave={this.cancelHover} className={this.props.model.get('kwgClasses') || 'kwgContainer'} >
+            <div className="kwgRotating">
+                {this.props.model.get('displayedWord')}
+            </div>
+            <div className="kwgHover">
+                {this.props.model.get('keywordCat') || 'null'}
+            </div>
         </div>
+
         );
+    },
+    initRegisterHover: function() {
+        this.hoverValid = true;
+        window.setTimeout(function() {
+            if (this.hoverValid)
+                this.props.model.set({kwgClasses: 'kwgContainer longhover'});
+        }.bind(this), 400)
+    },
+    cancelHover: function() {
+        this.hoverValid = false;
+        this.props.model.set({kwgClasses: 'kwgContainer'})
     }
 });
 
@@ -141,7 +146,7 @@ var KWGCont = React.createClass({
         var kwgc_view = kwgCollection.map(function(kwg) {
             keynum++;
             return (
-                <KWGView key={keynum} model={kwg}/>
+                <KWGView /*key={keynum}*/ model={kwg}/>
             );
         });
         return (
