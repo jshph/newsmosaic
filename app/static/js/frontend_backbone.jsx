@@ -15,10 +15,30 @@
     }
 }*/
 
+var BackboneMixin = {
+    componentDidMount: function () {
+        // Whenever there may be a change in the Backbone data, trigger a
+        // reconcile.
+        this.getBackboneCollections().forEach(function (collection) {
+            // explicitly bind `null` to `forceUpdate`, as it demands a callback and
+            // React validates that it's a function. `collection` events passes
+            // additional arguments that are not functions
+            collection.on('add remove change', this.forceUpdate.bind(this, null));
+        }, this);
+    },
+
+    componentWillUnmount: function () {
+        // Ensure that we clean up any dangling references when the component is
+        // destroyed.
+        this.getBackboneCollections().forEach(function (collection) {
+            collection.off(null, null, this);
+        }, this);
+    }
+};
+
 React.Backbone = {
   listenToProps: function(props) {
     _.each(this.updateOnProps, function(events, propName) {
-      propName = events;
       switch(events) {
       case 'collection': 
         events = 'add remove reset sort';
@@ -75,35 +95,13 @@ var ContentContainer = Backbone.Model.extend({
 var KWGroup = Backbone.Model.extend({
     tagName: 'div',
     initialize: function() {
-        this.rotateWords();
-        this.kwgClasses = 'kwgContainer';
     },
     parse: function(data_quad) {
-        data_quad.displayedWord = data_quad.wordchoice[0];
-        data_quad.keywordCat = this.genKeywordString(data_quad.wordchoice);
+        wordchoice = data_quad.wordchoice;
+        displayedWord = wordchoice[0]; // for test
+        corpus = data_quad.corpus;
         return data_quad;
     },
-    rotateWords: function() {
-        var index = 0;
-        window.setInterval(function() {
-            this.set({displayedWord: this.get("wordchoice")[index]});
-            index === 10 ? index = 0 : index++;
-<<<<<<< HEAD
-        }.bind(this), 200);
-=======
-        }.bind(this), 400);
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
-    },
-    genKeywordString: function(wordchoice) {
-        return _.reduce(wordchoice, function(keywordString, keyword) {
-            console.log(keywordString);
-<<<<<<< HEAD
-            return keywordString += keyword + " ";
-=======
-            return keywordString += " " + keyword;
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
-        });
-    }
 });
 
 var KWGCollection = Backbone.Collection.extend({
@@ -117,66 +115,35 @@ var ArticlePane = Backbone.Model.extend({
 });
 
 var KWGView = React.createClass({
-    mixins: [React.Backbone],
-    updateOnProps: { 'item': 'model' },
+    /*mixins: [BackboneMixin],
+    getBackboneCollections: function () {
+        return [this.props.kwgCollection]
+    },*/
+    /*componentDidMount: function() {
+        this.props.model.on('change', function() {
+            this.forceUpdate(callback);
+        }).bind(this);
+    },*/
     render: function() {
         return (
-        <div onMouseEnter={this.initRegisterHover} onMouseLeave={this.cancelHover} className={this.props.model.get('kwgClasses') || 'kwgContainer'} >
-<<<<<<< HEAD
-            <div className="kwgRotating">
-                {this.props.model.get('displayedWord')}
-            </div>
-            <div className="kwgHover">
-                {this.props.model.get('keywordCat') || 'null'}
-            </div>
-=======
-            <span className="kwgRotating">
-                {this.props.model.get('displayedWord')}
-            </span>
-            <span className="kwgHover">
-                {this.props.model.get('keywordCat') || 'null'}
-            </span>
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
+        <div className="kwgview">
+            {this.props.model.get('corpus')}
         </div>
-
         );
-    },
-    initRegisterHover: function() {
-        this.hoverValid = true;
-        window.setTimeout(function() {
-            if (this.hoverValid)
-                this.props.model.set({kwgClasses: 'kwgContainer longhover'});
-        }.bind(this), 400)
-    },
-    cancelHover: function() {
-        this.hoverValid = false;
-        this.props.model.set({kwgClasses: 'kwgContainer'})
     }
 });
 
 var KWGCont = React.createClass({
-    mixins: [React.Backbone],
-    updateOnProps: { 'items': 'collection' },
     render: function() {
-        var keynum = 0;
         var kwgCollection = this.props.model;
         var kwgc_view = kwgCollection.map(function(kwg) {
-            keynum++;
             return (
-                <KWGView /*key={keynum}*/ model={kwg}/>
+                <KWGView model={kwg}/>
             );
         });
         return (
-<<<<<<< HEAD
-            <div>
             {kwgc_view}
-            </div>
-=======
-            <p>
-            {kwgc_view}
-            </p>
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
-        );
+            );
     }
 });
  

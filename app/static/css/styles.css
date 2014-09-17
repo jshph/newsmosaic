@@ -8,21 +8,22 @@ body {
 
 #keywordCont {
     text-align: left;
+    float:left;
 }
 
-.keyword_group {
+.kwgContainer {
     color:black;
     transition:.3s;
     cursor:pointer;
     padding: 0 5px;
-}
 
-.keyw_setWidth {
+    /*dupl from keyw_setWidth*/
     width:90px;
     text-align: center;
     display: inline-block;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 .kwgContainer:hover {
@@ -54,11 +55,37 @@ body {
 >>>>>>> parent of d946ffc... some cleanup: text wraparound instead of jitter, insert space between first and second words
 .keywg_active {
     background-color: rgb(202, 200, 245);
+=======
+.kwgContainer:hover {
+    background-color: rgb(253, 252, 40);
+>>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
 }
 
-.keyword_group:hover {
-    color:rgb(177, 177, 177);
-    transition:.3s;
+.kwgRotating {
+    display:inline;
+}
+
+.kwgContainer.longhover .kwgRotating {
+    display:none;
+}
+
+.kwgHover {
+    display:none;
+}
+
+.kwgContainer.longhover .kwgHover {
+    display:inline;
+}
+
+.kwgContainer.longhover {
+    width:auto;
+    text-align: left;
+    display:inline;
+    color:rgb(149, 110, 143);
+}
+
+.keywg_active {
+    background-color: rgb(202, 200, 245);
 }
 
 .bodyPane {
