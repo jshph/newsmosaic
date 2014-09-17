@@ -24,7 +24,7 @@ request.get('/request', function(data) {
 function append(data) {
     var prev_active;
     var refreshfactor = 1;
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 10; i++) {
         data.forEach(function(data_quad) {
             var keywordGroup = document.createElement('span');
             $(keywordGroup).addClass('keyword_group');
@@ -38,7 +38,7 @@ function append(data) {
             //$(keywordGroup).text(data_quad.wordchoice[0]);
 
             var articleBody = document.createElement('div');
-            $(articleBody).addClass('bodyPane panel panel-default')
+            $(articleBody).addClass('bodyPane panel')
                         .html('<div><h4 style="text-align:center">' + data_quad.title + '</h4>' +
                             '<p>' + data_quad.corpus + '</p></div>');
 
