@@ -23,6 +23,35 @@ body {
     display: inline-block;
 }
 
+<<<<<<< HEAD
+=======
+.kwgContainer:hover {
+    background-color: rgb(253, 252, 40);
+}
+
+.kwgRotating {
+    display:inline-block;
+}
+
+.kwgContainer.longhover .kwgRotating {
+    display:none;
+}
+
+.kwgHover {
+    display:none;
+}
+
+.kwgContainer.longhover .kwgHover {
+    display:inline-block;
+}
+
+.kwgContainer.longhover {
+    width:auto;
+    text-align: left;
+    color:rgb(149, 110, 143);
+}
+
+>>>>>>> parent of d946ffc... some cleanup: text wraparound instead of jitter, insert space between first and second words
 .keywg_active {
     background-color: rgb(202, 200, 245);
 }
