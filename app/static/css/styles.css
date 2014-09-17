@@ -11,18 +11,20 @@ body {
     float:left;
 }
 
-.kwgContainer {
+.keyword_group {
     color:black;
     transition:.3s;
     cursor:pointer;
     padding: 0 5px;
+}
 
-    /*dupl from keyw_setWidth*/
+.keyw_setWidth {
     width:90px;
     text-align: center;
     display: inline-block;
 }
 
+<<<<<<< HEAD
 .kwgContainer:hover {
     background-color: rgb(253, 252, 40);
 }
@@ -50,8 +52,15 @@ body {
     color:rgb(149, 110, 143);
 }
 
+=======
+>>>>>>> parent of 3d9e52a... hover to expand list of keywords done (in backbone/react)
 .keywg_active {
     background-color: rgb(202, 200, 245);
+}
+
+.keyword_group:hover {
+    color:rgb(177, 177, 177);
+    transition:.3s;
 }
 
 .bodyPane {
