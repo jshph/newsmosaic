@@ -1,8 +1,4 @@
-/** @jsx React.DOM */
-
-// OTHER FRAMEWORK STUFF, NOT PART OF MVC //
-
-/*var HttpClient = function() {
+var HttpClient = function() {
     this.get = function(aUrl, aCallback) {
         anHttpRequest = new XMLHttpRequest();
         anHttpRequest.onreadystatechange = function() { 
@@ -13,7 +9,7 @@
         anHttpRequest.open( "GET", aUrl, true );            
         anHttpRequest.send( null );
     }
-}*/
+}
 
 React.Backbone = {
   listenToProps: function(props) {
@@ -43,10 +39,6 @@ React.Backbone = {
     this.stopListening();
   }
 }
- 
-_.extend(React.Backbone, Backbone.Events);
-
-// END FRAMEWORK //
 
 var ContentContainer = Backbone.Model.extend({
     tagName: 'div',
@@ -67,10 +59,13 @@ var ContentContainer = Backbone.Model.extend({
                 console.log('failed to fetch original data!');
             }
         })
+    },
+    render: function() {
 
-    }
+    },
+    defaults: {
+    },
 });
-
 
 var KWGroup = Backbone.Model.extend({
     tagName: 'div',
@@ -88,21 +83,19 @@ var KWGroup = Backbone.Model.extend({
         window.setInterval(function() {
             this.set({displayedWord: this.get("wordchoice")[index]});
             index === 10 ? index = 0 : index++;
-<<<<<<< HEAD
-        }.bind(this), 200);
-=======
         }.bind(this), 400);
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
     },
     genKeywordString: function(wordchoice) {
         return _.reduce(wordchoice, function(keywordString, keyword) {
             console.log(keywordString);
-<<<<<<< HEAD
-            return keywordString += keyword + " ";
-=======
             return keywordString += " " + keyword;
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
         });
+    },
+    parse: function(data_quad) {
+        wordchoice = data_quad.wordchoice;
+        console.log(wordchoice)
+        corpus = data_quad.corpus;
+        return data_quad;
     }
 });
 
@@ -122,21 +115,12 @@ var KWGView = React.createClass({
     render: function() {
         return (
         <div onMouseEnter={this.initRegisterHover} onMouseLeave={this.cancelHover} className={this.props.model.get('kwgClasses') || 'kwgContainer'} >
-<<<<<<< HEAD
-            <div className="kwgRotating">
-                {this.props.model.get('displayedWord')}
-            </div>
-            <div className="kwgHover">
-                {this.props.model.get('keywordCat') || 'null'}
-            </div>
-=======
             <span className="kwgRotating">
                 {this.props.model.get('displayedWord')}
             </span>
             <span className="kwgHover">
                 {this.props.model.get('keywordCat') || 'null'}
             </span>
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
         </div>
 
         );
@@ -167,15 +151,9 @@ var KWGCont = React.createClass({
             );
         });
         return (
-<<<<<<< HEAD
             <div>
             {kwgc_view}
             </div>
-=======
-            <p>
-            {kwgc_view}
-            </p>
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
         );
     }
 });
@@ -189,4 +167,6 @@ var KWGColView = new Backbone.CollectionView({
 
 })*/
 
+=======
+>>>>>>> parent of b82bd8b... first React render. restructure React and Backbone next, so React takes responsibility for Collection views.
 var contentContainer = new ContentContainer();

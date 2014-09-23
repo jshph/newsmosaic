@@ -23,9 +23,6 @@ body {
     display: inline-block;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 .kwgContainer:hover {
     background-color: rgb(253, 252, 40);
 }
@@ -52,13 +49,8 @@ body {
     color:rgb(149, 110, 143);
 }
 
->>>>>>> parent of d946ffc... some cleanup: text wraparound instead of jitter, insert space between first and second words
-.keywg_active {
-    background-color: rgb(202, 200, 245);
-=======
 .kwgContainer:hover {
     background-color: rgb(253, 252, 40);
->>>>>>> parent of e5bccef... Revert fb81c2b..d946ffc
 }
 
 .kwgRotating {

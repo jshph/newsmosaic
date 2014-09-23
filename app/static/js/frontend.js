@@ -24,7 +24,7 @@ request.get('/request', function(data) {
 function append(data) {
     var prev_active;
     var refreshfactor = 1;
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 10; i++) {
         data.forEach(function(data_quad) {
             var keywordGroup = document.createElement('span');
             $(keywordGroup).addClass('keyword_group');
