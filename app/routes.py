@@ -9,7 +9,7 @@ import pprint
 import sqlite3
 
 #Database configuration
-DATABASE = '/tmp/flaskr.db'
+DATABASE = 'flaskr.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
