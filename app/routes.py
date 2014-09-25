@@ -28,8 +28,6 @@ def yo():
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE']) 
 
-<<<<<<< HEAD
-=======
 def init_db():
   with closing(connect_db()) as db:
     with app.open_resource('static/schema.sql', mode='r') as f:
@@ -47,11 +45,9 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-<<<<<<< HEAD
->>>>>>> bdf69fd... added before/after request methods
 def hello():
 	print "hello"
-=======
+
 #App Pages
 @app.route('/show_entries')
 def show_entries():
@@ -59,7 +55,6 @@ def show_entries():
     cur = g.db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
->>>>>>> 90fa4aa... practice code in order to post to database
 
 @app.route('/add',methods=['POST'])
 def add_entry():
