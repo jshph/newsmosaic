@@ -1,12 +1,24 @@
-from flask import Flask, render_template
+from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from urllib2 import Request, urlopen, URLError
 import threading
 import datasource
 import nltk
 import json
 import pprint
+import sqlite3
+
+#Database configuration
+DATABASE = '/tmp/flaskr.db'
+DEBUG = True
+SECRET_KEY = 'development key'
+USERNAME = 'admin'
+PASSWORD = 'default'
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+
+def connect_db():
+	return sqlite3.connect(app.config['DATABASE']) 
 
 def hello():
 	print "hello"
