@@ -8,7 +8,7 @@ import pprint
 import sqlite3
 
 #Database configuration
-DATABASE = '/tmp/flaskr.db'
+DATABASE = 'flaskr.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -17,6 +17,14 @@ PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+#Testing Methods
+def hello():
+  print "hello"
+
+def yo():
+  print "yo"
+
+#Database Methods
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE']) 
 
@@ -39,16 +47,37 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
+<<<<<<< HEAD
 >>>>>>> bdf69fd... added before/after request methods
 def hello():
 	print "hello"
+=======
+#App Pages
+@app.route('/show_entries')
+def show_entries():
+    print DATABASE
+    cur = g.db.execute('select title, text from entries order by id desc')
+    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('show_entries.html', entries=entries)
+>>>>>>> 90fa4aa... practice code in order to post to database
 
-def yo():
-	print "yo"
+@app.route('/add',methods=['POST'])
+def add_entry():
+    #if not session.get('logged_in'):
+    #    abort(401)
+    g.db.execute('insert into entries (title, text) values (?, ?)',
+                 [request.form['title'], request.form['text']])
+    g.db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_entries'))
 
 @app.route('/')
 def home():
 	return render_template('main.html')
+
+@app.route('/input')
+def input():
+  return render_template('input.html')
 
 @app.route('/update')
 def respond():
