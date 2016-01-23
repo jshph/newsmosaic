@@ -2,19 +2,6 @@
 
 // OTHER FRAMEWORK STUFF, NOT PART OF MVC //
 
-/*var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
-        }
-
-        anHttpRequest.open( "GET", aUrl, true );            
-        anHttpRequest.send( null );
-    }
-}*/
-
 React.Backbone = {
   listenToProps: function(props) {
     _.each(this.updateOnProps, function(events, propName) {

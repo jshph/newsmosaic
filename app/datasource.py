@@ -39,7 +39,11 @@ class DataSource(object):
 			print i
 			url= result['feedId'][5:]
 			print url
-			tree = ET.ElementTree(file=urlopen(url)) 
+			try:
+				tree = ET.ElementTree(file=urlopen(url))
+			except Exception, e:
+				print "couldn't fetch from ", url
+				continue
 			root = tree.getroot()
 
 			urlcount = 0
@@ -51,9 +55,13 @@ class DataSource(object):
 				print urlcount, curr_url
 				data_quartet = {}
 				data_quartet['url']=curr_url
+
 				if (curr_url[-4:]==".php"):
 					continue;
 				tempScraped = self.scrape_url(curr_url)
+
+				if tempScraped == None:
+					continue
 				# if (tempScraped.meta_lang != 'en'):
 				# 	print 'not ingles'
 				# 	continue
@@ -69,7 +77,12 @@ class DataSource(object):
 		return self.data
 
 	def scrape_url(self,url):
-		extractedBody = self.g.extract(url=url)
+		extractedBody = None
+		try:
+			extractedBody = self.g.extract(url=url)
+		except Exception:
+			print "could not scrape"
+			pass
 		return extractedBody
 
 	def choose_words(self,corpus):
