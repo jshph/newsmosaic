@@ -1,14 +1,29 @@
 # install Goose https://github.com/grangier/python-goose
+# 
+# Done so far: basic keyword extraction using tagger works.
+# 
+# Concerns about keyword extraction using Tagger library:
+# https://github.com/apresta/tagger
+# - dictionary should be built from relevant corpi to article to be more
+# 	effective at attracting attention in immersive interface
+# - TF-IDF is a function provided in the module build_dict... if articles
+# 	in collection ever accumulate enough around one subject, use TF-IDF
+# 
+# immediate todos:
+# - implement multitag
 
 from goose import Goose
-from topia.termextract import extract
-extractor = extract.TermExtractor()
+import urllib2
+from urllib import urlencode
+import tagger
+import pickle
+import json
 
 url = "http://www.theverge.com/2014/9/11/6136443/the-largest-predatory-dinosaur-ever-was-half-duck-half-crocodile"
 g = Goose()
-article = g.extract(url=url)
-# print article.title
-# print article.cleaned_text
-x = sorted(extractor(article.cleaned_text))
-for i in x:
-	print i[0]
+article = g.extract(url=url).cleaned_text
+
+weights = pickle.load(open('data/dict.pkl', 'rb')) # or your own dictionary
+mytagger = tagger.Tagger(tagger.Reader(), tagger.Stemmer(), tagger.Rater(weights))
+best_3_tags = mytagger(article, 6)
+print best_3_tags
