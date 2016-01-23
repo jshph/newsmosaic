@@ -2,9 +2,11 @@ from urllib2 import Request, urlopen, URLError
 import json
 import xml.etree.ElementTree as ET
 import threading
-import nltk
+# import nltk
 import random
 from goose import Goose
+import dependencies.tagger as tagger
+import pickle
 import pprint
 
 
@@ -71,12 +73,15 @@ class DataSource(object):
 		return extractedBody
 
 	def choose_words(self,corpus):
-		tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
-		tokens = tokenizer.tokenize(corpus)
-		chosen_words = []
-		for x in range(0,12):
-			chosen_words.append(tokens[random.randrange(0,len(tokens))])
-		return chosen_words
+		# tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
+		# tokens = tokenizer.tokenize(corpus)
+		# chosen_words = []
+		# for x in range(0,12):
+		# 	chosen_words.append(tokens[random.randrange(0,len(tokens))])
+		# return chosen_words
+		weights = pickle.load(open('dependencies/dict.pkl', 'rb'))
+		thisTagger = tagger.Tagger(tagger.Reader(), tagger.Stemmer(), tagger.Rater(weights))
+		return thisTagger(corpus, 8)
 
 
 
