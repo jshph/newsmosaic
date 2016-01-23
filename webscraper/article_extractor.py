@@ -13,11 +13,8 @@
 # - implement multitag
 
 from goose import Goose
-import urllib2
-from urllib import urlencode
 import tagger
 import pickle
-import json
 
 url = "http://www.theverge.com/2014/9/11/6136443/the-largest-predatory-dinosaur-ever-was-half-duck-half-crocodile"
 g = Goose()
