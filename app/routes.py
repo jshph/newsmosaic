@@ -26,7 +26,7 @@ def yo():
 
 #Database Methods
 def connect_db():
-	return sqlite3.connect(app.config['DATABASE']) 
+  return sqlite3.connect(app.config['DATABASE']) 
 
 def init_db():
   with closing(connect_db()) as db:
@@ -46,7 +46,7 @@ def teardown_request(exception):
         db.close()
 
 def hello():
-	print "hello"
+  print "hello"
 
 #App Pages
 @app.route('/show_entries')
@@ -68,7 +68,7 @@ def add_entry():
 
 @app.route('/')
 def home():
-	return render_template('main.html')
+  return render_template('main.html')
 
 @app.route('/input')
 def input():
@@ -76,12 +76,14 @@ def input():
 
 @app.route('/update')
 def respond():
-	data = datasource.DataSource()
-	data.update_data()
-	# pprint.pprint(data.data)
-	with open('data.json', 'w') as outfile:
-  		json.dump(data.data, outfile)
-  	return 'blah'
+  data = datasource.DataSource()
+  data.update_data()
+  # pprint.pprint(data.data)
+  with open('data.json', 'w') as outfile:
+    for article in data.data:
+      article['wordchoice'] = [x.__dict__['string'] for x in article['wordchoice']]
+    json.dump(data.data, outfile)
+    return 'blah'
 
 @app.route('/request')
 def clientdemand():
@@ -105,6 +107,6 @@ if __name__ == '__main__':
     data = json.loads(json_data)
     # pprint.pprint(data)
     app.run(debug=True)
-	
-	
-	
+  
+  
+  
