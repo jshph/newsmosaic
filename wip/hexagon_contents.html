@@ -2,28 +2,8 @@
 <html>
 <head>
     <title></title>
-
-<style type="text/css">
-body {
-    font-family: 'Georgia';
-}
-
-#keywords {
-    width:300px;
-    text-align: center
-}
-
-#keywords p {
-    line-height: 16pt;
-}
-
-.moveUp {
-    transition: 1s;
-    -ms-transform: translateY(-24pt);
-    -webkit-transform: translateY(-24pt);
-    transform: translateY(-24pt);
-}
-</style>
+    <link rel="stylesheet/less" type="text/css" href="styles.less"/>
+    <script type="text/javascript" src="less.min.js"></script>
 </head>
 <body>
 
@@ -63,7 +43,7 @@ setInterval(function rotateWords() {
         first.remove();
         $kw.append(first);
     });
-}, 450);
+}, 1000);
 
 });
 

@@ -1,0 +1,21 @@
+@fontSize: 16pt;
+
+body {
+    font-family: 'Georgia';
+}
+
+#keywords {
+    width:300px;
+    text-align: center
+}
+
+#keywords p {
+    line-height: @fontSize;
+}
+
+.moveUp {
+    transition: 1s ease;
+    -ms-transform: translateY(-@fontSize - 4);
+    -webkit-transform: translateY(-@fontSize - 4);
+    transform: translateY(-@fontSize - 4);
+}
