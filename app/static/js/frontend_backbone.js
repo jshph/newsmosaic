@@ -41,15 +41,18 @@ var ContentContainer = Backbone.Model.extend({
     initialize: function() {
         this.fetch({
             success: function(data) {
-                kwgCollection = new KWGCollection(
-                    $.map(data.attributes, function(item){return item;}), // convert JSON to Array
-                    {parse: true}
-                );
+                this.set({kwgCollection:
+                    new KWGCollection(
+                        $.map(data.attributes, function(item){return item;}), // convert JSON to Array
+                        {parse: true}
+                    )
+                });
 
                 React.renderComponent(
-                    <KWGCont model={kwgCollection}/>
+                    <KWGCont model={this.get('kwgCollection')}/>
                 , document.getElementById('keywordCont'));
-            },
+            }.bind(this),
+
             failed: function() {
                 console.log('failed to fetch original data!');
             }
@@ -57,6 +60,28 @@ var ContentContainer = Backbone.Model.extend({
 
     }
 });
+
+var KWGCont = React.createClass({
+    mixins: [React.Backbone],
+    updateOnProps: { 'items': 'collection' },
+    render: function() {
+        var keynum = 0;
+        var kwgCollection = this.props.model;
+        var kwgc_view = kwgCollection.map(function(kwg) {
+            keynum++;
+            return (
+                <KWGView /*key={keynum}*/ model={kwg}/>
+            );
+        });
+        return (
+            <div>
+            {kwgc_view}
+            </div>
+        );
+    }
+});
+
+
 
 
 var KWGroup = Backbone.Model.extend({
@@ -79,20 +104,9 @@ var KWGroup = Backbone.Model.extend({
     },
     genKeywordString: function(wordchoice) {
         return _.reduce(wordchoice, function(keywordString, keyword) {
-            console.log(keywordString);
             return keywordString += " " + keyword;
         });
     }
-});
-
-var KWGCollection = Backbone.Collection.extend({
-    model: KWGroup,
-    initialize: function() {
-    }
-});
-
-var ArticlePane = Backbone.Model.extend({
-
 });
 
 var KWGView = React.createClass({
@@ -124,25 +138,11 @@ var KWGView = React.createClass({
     }
 });
 
-var KWGCont = React.createClass({
-    mixins: [React.Backbone],
-    updateOnProps: { 'items': 'collection' },
-    render: function() {
-        var keynum = 0;
-        var kwgCollection = this.props.model;
-        var kwgc_view = kwgCollection.map(function(kwg) {
-            keynum++;
-            return (
-                <KWGView /*key={keynum}*/ model={kwg}/>
-            );
-        });
-        return (
-            <div>
-            {kwgc_view}
-            </div>
-        );
-    }
+var KWGCollection = Backbone.Collection.extend({
+    model: KWGroup,
+    initialize: function() {}
 });
+
  
 /*
 var KWGColView = new Backbone.CollectionView({
