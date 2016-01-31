@@ -40,7 +40,6 @@ for (var i = 0; i < 4; i++) {
     }
     $(newRow).appendTo($('body'));
 }
-//var $kw = $('#keywords');
 
 function renderWords($kw) {
 
@@ -53,25 +52,30 @@ words.forEach(function(word, index) {
     $kw.append($(line));
 });
 
-setInterval(function rotateWords() {
-    $pChildren = $kw.children('p');
-    console.log($pChildren.length)
+function rotateWords() {
+    var $pChildren = $kw.children('p');
 
-    $pChildren.addClass('moveUp');
     var first = $pChildren.first();
+    var tmp = first.clone()
 
+    var firstRemoved = false;
     $pChildren.each(function(index, word) {
-        var fontSize = FONT_MAXSIZE - Math.abs(Math.floor(words.length/2) - index + 1) * 3;
-        $(word).css('font-size', fontSize + 'pt');
-    })
-
-    $pChildren.on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
-        $pChildren.removeClass('moveUp');
-        first.remove();
-        $kw.append(first);
+        $(word).animate({
+            marginTop: -11 + FONT_MAXSIZE/6 + 'pt',
+            fontSize: FONT_MAXSIZE - Math.abs(Math.floor(words.length/2) - index + 1) * 2 + 'pt'
+        }, 500, function() {
+            $(word).css({'margin-top': '0pt'});
+            if (!firstRemoved) {
+                first.remove();
+                $kw.append(tmp);
+                rotateWords();
+                firstRemoved = true;
+            }
+        });
     });
-}, 1000);
+}
 
+rotateWords();
 
 }
 
