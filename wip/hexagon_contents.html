@@ -21,6 +21,9 @@
 
 $(document).ready(function() {
 
+var words = ['trump', 'candidate', '2016 presidential race', 'polls', 'republican'];
+var FONT_MAXSIZE = 16;
+
 for (var i = 0; i < 4; i++) {
     var newRow = document.createElement('div');
     $(newRow).addClass('hex-row');
@@ -41,9 +44,6 @@ for (var i = 0; i < 4; i++) {
 
 function renderWords($kw) {
 
-var words = ['trump', 'candidate', '2016 presidential race', 'polls', 'republican'];
-var FONT_MAXSIZE = 16;
-
 words.forEach(function(word, index) {
     var line = document.createElement('p');
     var fontSize = FONT_MAXSIZE - Math.abs(Math.floor(words.length/2) - index) * 3;
@@ -55,10 +55,10 @@ words.forEach(function(word, index) {
 
 setInterval(function rotateWords() {
     $pChildren = $kw.children('p');
-
-    var first = $pChildren.first();
+    console.log($pChildren.length)
 
     $pChildren.addClass('moveUp');
+    var first = $pChildren.first();
 
     $pChildren.each(function(index, word) {
         var fontSize = FONT_MAXSIZE - Math.abs(Math.floor(words.length/2) - index + 1) * 3;
