@@ -7,7 +7,12 @@
 </head>
 <body>
 
-<div id="keywords">
+<div class="hex">
+    <div class="left"></div>
+    <div class="middle"></div>
+    <div class="right"></div> 
+    <div id="keywords">
+    </div>
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -16,7 +21,7 @@
 $(document).ready(function() {
 
 var words = ['trump', 'candidate', '2016 presidential race', 'polls', 'republican'];
-var FONT_MAXSIZE = 16;
+var FONT_MAXSIZE = 14;
 var $kw = $('#keywords');
 
 words.forEach(function(word, index) {
