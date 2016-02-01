@@ -1,20 +1,24 @@
-@fontSize: 16pt;
+@fontSize: 12pt;
 @hexwidth: @fontSize * 0.75 * 17;
+@hexBG: rgb(255,255,255);
 
 
 body {
     font-family: 'Georgia';
+    background-color:rgb(20,20,20);
 }
 
 .keywords {
     width: @hexwidth;
     text-align: center;
     position:absolute;
+    z-index:1;
     margin-top: 16px;
 }
 
 .keywords p {
     line-height: @fontSize*1.5;
+    color:rgb(20,20,20);
 }
 
 .moveUp {
@@ -37,7 +41,7 @@ body {
 .hex .left {
     float: left;
     width: 0;
-    border-right: @hexwidth / 4 solid #6C6;
+    border-right: @hexwidth / 4 solid @hexBG;
     border-top: @hexwidth * .4333 solid transparent;
     border-bottom: @hexwidth * .4333 solid transparent;
 }
@@ -45,12 +49,12 @@ body {
     float: left;
     width: @hexwidth / 2;
     height: @hexwidth * .8666;
-    background: #6C6;
+    background: @hexBG;
 }
 .hex .right {
     float: left;
     width: 0;
-    border-left: @hexwidth / 4 solid #6C6;
+    border-left: @hexwidth / 4 solid @hexBG;
     border-top: @hexwidth * .4333 solid transparent;
     border-bottom: @hexwidth * .4333 solid transparent;
 }
@@ -59,4 +63,10 @@ body {
 }
 .hex.even {
     margin-top: @hexwidth * .441666;
+}
+.hex .middle-shade {
+	position:absolute;
+	left:25%;
+	z-index:2;
+	background: linear-gradient(white, rgba(255,255,255,0), white);
 }
