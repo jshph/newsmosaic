@@ -4,6 +4,9 @@ newsmosaic
 
 (*WIP*, demo)
 
+**For more granular thoughts and running updates on this project, please see the Evernote note:**  
+https://www.evernote.com/shard/s223/sh/8468c9cb-b761-4b65-a9d6-5b16c3fca600/c97685a2efe2706b
+
 Newsmosaic is an experiment in immersive newsfeed interface. Where many newsfeeds present their users with article snippets to browse by scrolling down, this experiments with fitting more articles on a single page to browse.
 
 Some stuff to still explore:
