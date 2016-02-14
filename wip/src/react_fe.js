@@ -1,14 +1,12 @@
-MAX_HEX_IN_ROW = 7;
+var MAX_HEX_IN_ROW = 7;
+var FONT_MAXSIZE = 12;
 
 var Hexagon = React.createClass({
-  componentWillMount() {
-    this.renderWords();
+  componentDidMount() {
   },
-  renderWords: function() {
-    var wordList = this.props.keywords;
-    this.props.$kw = $(document.createElement('div'));
-    $kw = this.props.$kw;
-    $kw.addClass('keywords');
+  renderWords($kw) {
+    var wordlist = this.props.keywords;
+    $kw = $($kw);
 
     wordlist.forEach(function(word, index) {
         var line = document.createElement('p');
@@ -17,7 +15,6 @@ var Hexagon = React.createClass({
         $(line).text(word);
         $(line).css('font-size', fontSize + 'pt');
         $kw.append($(line));
-        this.setState();
     });
 
     function rotateWords() {
@@ -35,7 +32,6 @@ var Hexagon = React.createClass({
                 if (!firstRemoved) {
                     first.remove();
                     $kw.append(tmp);
-                    this.setState();
                     rotateWords();
                     firstRemoved = true;
                 }
@@ -45,39 +41,52 @@ var Hexagon = React.createClass({
     }
     rotateWords();
   },
-	render: function() {
-    this.props.$kw = $(document.createElement('div'));
-    $kw.addClass('keywords');
+	render() {
+    var hexClasses = "hex" + (this.props.even ? " even" : "");
 		return (
-      <div class="hex">
-        <div class="left"></div>
-        <div class="middle"></div>
-        <div class="middle middle-shade"></div>
-        <div class="right"></div>
-        {{this.props.$kw}}
+      <div className={hexClasses}>
+        <div className="left"></div>
+        <div className="middle"></div>
+        <div className="middle middle-shade"></div>
+        <div className="right"></div>
+        <div className="keywords" ref={this.renderWords}></div>
       </div>
     )
 	}
 })
 
 var HexRow = React.createClass({
-  render: function() {
+  render() {
+    var even = true;
     var row = this.props.articleRowAry.map(function(article) {
-        return ( <Hexagon keywords=article.wordchoice/>)
+      if (even) {
+        even = false;
+        return ( <Hexagon even={true} keywords={article.wordchoice}/>)
+      } else {
+        even = true;
+        return ( <Hexagon even={false} keywords={article.wordchoice}/>)
+      }
     })
-    return (row);
+    return (<div>{row}</div>);
   }
 })
 
 var HexContainer = React.createClass({
-  render: function() {
+  render() {
     var aAry = this.props.articleArray;
-    var rowAry = []
-    for (var row = 0; row < Math.floor(aAry / MAX_HEX_IN_ROW); row++) {
-      rowAry.push(<HexRow articleRowAry=( aAry.slice(0, MAX_HEX_IN_ROW) || aAry.slice(0) ) /> );
+    var rowAry = [] 
+    for (var row = 0; row < Math.floor(aAry.length / MAX_HEX_IN_ROW); row++) {
+      rowAry.push(<HexRow articleRowAry={ aAry.slice(0, MAX_HEX_IN_ROW) || aAry.slice(0) } /> );
       aAry.splice(0, MAX_HEX_IN_ROW);
     }
-    return (rowAry);
+    console.log(rowAry);
+    return (<div>{rowAry}</div>);
   }
 })
+
+console.log(word_db);
+
+ReactDOM.render(
+  <HexContainer articleArray={word_db}/>, document.getElementById('container')
+  );
 
