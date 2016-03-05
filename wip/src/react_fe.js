@@ -1,3 +1,9 @@
+// absolute positioning function that moves some text element based on its vertical position.
+// position is mapped to a parametric curve.
+// timing function that interacts with the absolute positioning function to move in intervals
+// scaling text element according to position on the absolute position
+// does react take care of element removal efficiently, or should element wrap-around be manually moved rather than remove/append?
+
 var MAX_HEX_IN_ROW = 7;
 var FONT_MAXSIZE = 12;
 
@@ -5,7 +11,13 @@ var Hexagon = React.createClass({
   componentDidMount() {
   },
   renderWords($kw) {
-    var wordlist = this.props.keywords;
+    var wordlist = (function fillWrap(array) {
+      if (array.length < 5)
+        array.push(array.slice(0, 5 - array.length))
+      else if (array.length > 5)
+        array.splice(5)
+      return array;
+    })(this.props.keywords)
     $kw = $($kw);
 
     wordlist.forEach(function(word, index) {
