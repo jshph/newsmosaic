@@ -22,6 +22,7 @@ body {
     text-align:center;
     display:inline;
     animation: scale 3s cubic-bezier(0.4,0,0.6,1) infinite, slideUp 3s cubic-bezier(0.4,0,0.6,1) infinite, disappear 3s infinite;
+    transform:translateZ(0);
 }
 @keyframes slideUp {
     from {
@@ -46,17 +47,11 @@ body {
     0% {
         opacity:0;
     }
-    5% {
-        opacity:0.1;
-    }
     10% {
         opacity:1;
     }
     90% {
         opacity:1;
-    }
-    95% {
-        opacity:0.1;
     }
     100% {
         opacity:0;
@@ -98,10 +93,4 @@ body {
 }
 .hex.even {
     margin-top: @hexwidth * .441666;
-}
-.hex .middle-shade {
-	position:absolute;
-	left:25%;
-	z-index:2;
-	background: linear-gradient(white, rgba(255,255,255,0), white);
 }

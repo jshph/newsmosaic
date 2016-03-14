@@ -8,8 +8,6 @@ var MAX_HEX_IN_ROW = 7;
 var FONT_MAXSIZE = 12;
 
 var Hexagon = React.createClass({
-  componentDidMount() {
-  },
   renderWords($kw) {
     var wordlist = (function fillWrap(array) {
       if (array.length < 5)
@@ -25,39 +23,6 @@ var Hexagon = React.createClass({
         $(line).text(word); 
         $kw.append($(line));
     });
-
-/*    wordlist.forEach(function(word, index) {
-        var line = document.createElement('p');
-        var fontSize = FONT_MAXSIZE - Math.abs(Math.floor(wordlist.length/2) - index) * 3;
-
-        $(line).text(word);
-        $(line).css('font-size', fontSize + 'pt');
-        $kw.append($(line));
-    });
-
-    function rotateWords() {
-        var $pChildren = $kw.children('p');
-
-        var first = $pChildren.first();
-        var tmp = first.clone()
-
-        var firstRemoved = false;
-        $pChildren.each(function(index, word) {
-            $(word).animate({
-                marginTop: - FONT_MAXSIZE/2.5 + 'pt',
-                fontSize: FONT_MAXSIZE - Math.abs(Math.floor(wordlist.length/2) - index + 1) * 3.5 + 'pt'
-            }, 1000, function() {
-                if (!firstRemoved) {
-                    first.remove();
-                    $kw.append(tmp);
-                    rotateWords();
-                    firstRemoved = true;
-                }
-                $(word).css({'margin-top': '0pt'});
-            });
-        });
-    }
-    rotateWords();*/
   },
 	render() {
     var hexClasses = "hex" + (this.props.even ? " even" : "");
@@ -65,7 +30,6 @@ var Hexagon = React.createClass({
       <div className={hexClasses}>
         <div className="left"></div>
         <div className="middle"></div>
-        <div className="middle middle-shade"></div>
         <div className="right"></div>
         <div className="keywords" ref={this.renderWords}></div>
       </div>
