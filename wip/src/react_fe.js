@@ -19,8 +19,14 @@ var Hexagon = React.createClass({
       return array;
     })(this.props.keywords)
     $kw = $($kw);
-
     wordlist.forEach(function(word, index) {
+        var line = document.createElement('p');
+        line.style.animationDelay = -0.6 * index + "s";
+        $(line).text(word); 
+        $kw.append($(line));
+    });
+
+/*    wordlist.forEach(function(word, index) {
         var line = document.createElement('p');
         var fontSize = FONT_MAXSIZE - Math.abs(Math.floor(wordlist.length/2) - index) * 3;
 
@@ -51,7 +57,7 @@ var Hexagon = React.createClass({
             });
         });
     }
-    rotateWords();
+    rotateWords();*/
   },
 	render() {
     var hexClasses = "hex" + (this.props.even ? " even" : "");
