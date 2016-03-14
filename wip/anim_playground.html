@@ -5,7 +5,7 @@
 <style type="text/css">
 p {
 	position:absolute;
-	animation: scale 1s linear infinite, slideUp 1s linear infinite, disappear 1s infinite;
+	animation: scale 3s linear infinite, slideUp 3s cubic-bezier(0,0.3,1,0.7) infinite, disappear 3s infinite;
 }
 @keyframes slideUp {
 	from {
@@ -46,17 +46,27 @@ p {
 		opacity:0;
 	}
 }
+div {
+	display:inline-block;
+	position:relative;
+}
 </style>
 </head>
 <body>
+	<div>
 	<p data-kwn="1">lorem</p>
-	<!-- <p data-kwn="2">ipsum</p>
+	<p data-kwn="2">ipsum</p>
 	<p data-kwn="3">dolor</p>
 	<p data-kwn="4">sit</p>
-	<p data-kwn="5">amet</p> -->
+	<p data-kwn="5">amet</p>
+	</div>
 
 <script type="text/javascript">
-	
+	Array.prototype.slice.call(document.getElementsByTagName("div")).forEach(function(el) {
+		var keywords = el.querySelectorAll("[data-kwn]");
+		for (var i = 0; i < keywords.length; i++)
+					keywords[i].style.animationDelay = -0.6 * i + "s";
+	})
 </script>
 </body>
 </html>
