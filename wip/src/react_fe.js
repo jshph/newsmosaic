@@ -19,9 +19,11 @@ var Hexagon = React.createClass({
     $kw = $($kw);
     wordlist.forEach(function(word, index) {
         var line = document.createElement('p');
-        line.style.animationDelay = -0.6 * index + "s";
+        var wrapper = document.createElement('div');
+        $(line).appendTo($(wrapper));
+        wrapper.style.animationDelay = -0.6 * index + "s";
         $(line).text(word); 
-        $kw.append($(line));
+        $kw.append($(wrapper));
     });
   },
 	render() {
