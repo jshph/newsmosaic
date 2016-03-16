@@ -37,16 +37,14 @@ var Hexagon = React.createClass({
   handleClick() {
     if (!this.state.zoomed) {
       console.log(this.state.x);
-      $('#shifter').css({
-        left: -this.state.x,
-        top: -this.state.y,
-      });
+      $('#shifter').css('transform','scale(4) translate(-' + Number(this.state.x - 70) + 'px,-' + this.state.y + 'px)');
       this.setState({zoomed: true});
     } else {
       $('#shifter').css({
-        left: 0,
+        /*left: 0,
         top: 0,
-        transform:'scale(1)'
+        transform:'scale(1)'*/
+        'transform':''
       });
       this.setState({zoomed: false});
     }
