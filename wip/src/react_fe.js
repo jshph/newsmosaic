@@ -5,9 +5,15 @@
 // does react take care of element removal efficiently, or should element wrap-around be manually moved rather than remove/append?
 
 var MAX_HEX_IN_ROW = 7;
-var FONT_MAXSIZE = 12;
 
 var Hexagon = React.createClass({
+  componentDidMount() {
+    var $jqobj = $(React.findDOMNode(this));
+    this.setState({
+      x: $jqobj.offset().left/* + $jqobj.width()/2*/,
+      y: $jqobj.offset().top/* + $jqobj.height()/2*/
+    });
+  },
   renderWords($kw) {
     var wordlist = (function fillWrap(array) {
       if (array.length < 5)
@@ -25,11 +31,30 @@ var Hexagon = React.createClass({
         $(line).text(word); 
         $kw.append($(wrapper));
     });
+    return $kw
+
+  },
+  handleClick() {
+    if (!this.state.zoomed) {
+      console.log(this.state.x);
+      $('#shifter').css({
+        left: -this.state.x,
+        top: -this.state.y,
+      });
+      this.setState({zoomed: true});
+    } else {
+      $('#shifter').css({
+        left: 0,
+        top: 0,
+        transform:'scale(1)'
+      });
+      this.setState({zoomed: false});
+    }
   },
 	render() {
     var hexClasses = "hex" + (this.props.even ? " even" : "");
-		return (
-      <div className={hexClasses}>
+    return (
+      <div className={hexClasses} ref="hexEl" onClick={this.handleClick}>
         <div className="left"></div>
         <div className="middle"></div>
         <div className="right"></div>
@@ -51,7 +76,7 @@ var HexRow = React.createClass({
         return ( <Hexagon even={false} keywords={article.wordchoice}/>)
       }
     })
-    return (<div>{row}</div>);
+    return (<div className="hex-row">{row}</div>);
   }
 })
 
@@ -59,7 +84,7 @@ var HexContainer = React.createClass({
   render() {
     var aAry = this.props.articleArray;
     var rowAry = [] 
-    for (var row = 0; row < Math.floor(aAry.length / MAX_HEX_IN_ROW); row++) {
+    for (var row = 0; row < 3; row++) {
       rowAry.push(<HexRow articleRowAry={ aAry.slice(0, MAX_HEX_IN_ROW) || aAry.slice(0) } /> );
       aAry.splice(0, MAX_HEX_IN_ROW);
     }
@@ -67,8 +92,6 @@ var HexContainer = React.createClass({
     return (<div>{rowAry}</div>);
   }
 })
-
-console.log(word_db);
 
 ReactDOM.render(
   <HexContainer articleArray={word_db}/>, document.getElementById('container')

@@ -1,12 +1,30 @@
 @fontSize: 12pt;
 @hexwidth: @fontSize * 0.75 * 17;
-@hexBG: rgb(255,255,255);
-
+@hexBG: rgba(0,0,0,0);
 
 body {
     font-family: 'Georgia';
-    background-color:rgb(20,20,20);
+    position:relative;
+    margin:0;
 }
+
+#shifter {
+    position:absolute;
+    transition: 400ms;
+    left:0;
+    top:0;
+}
+
+#container {
+    background-image: url('http://localhost:8000/hexagonbg.svg');
+    background-position: top -96px left 47px;
+    background-repeat: no-repeat;
+    background-size: 147%;
+    width: 1163px;
+    height: 632px;
+    position: relative;
+}
+
 
 .keywords {
     width: @hexwidth;
