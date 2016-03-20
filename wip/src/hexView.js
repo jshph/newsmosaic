@@ -32,14 +32,14 @@ var Hexagon = React.createClass({
     if (!this.state.zoomed) {
       console.log(this.state.x);
       $('#shifter').css({
-        'transform':'scale(4) translate(-' + Number(this.state.x - 70) + 'px,-' + this.state.y + 'px)',
-        'opacity':0
+        'transform':'scale(4) translate(' + Number(582 - this.state.x - 85) + 'px,' + Number(316 - this.state.y - 82) + 'px)',
+        'opacity': 0
       });
       this.setState({zoomed: true});
     } else {
       $('#shifter').css({
         'transform':'',
-        'opacity':1
+        'opacity': 1
       });
       this.setState({zoomed: false});
     }
